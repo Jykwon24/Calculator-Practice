@@ -5,8 +5,10 @@ const operatorButton = document.querySelectorAll('.operator')
 const value = document.querySelector('.display')
 
 let currentValue = ''
-let valuesArr = []
+let lastValue = ''
 let currentOperation = ''
+
+main.addEventListener('click', handleClick)
 
 function handleClick(event) {
   const targetEvent = event.target.className
@@ -15,17 +17,24 @@ function handleClick(event) {
       updateValue(event)
       break;
     case 'operator':
-      selectOperator(event)
+      if (lastValue) {
+        compute(currentOperation)
+      }
+      currentOperation = event.target.value
+      lastValue = currentValue
+      currentValue = ''
+      console.log('Current Value inside handleclick', currentValue)
+      console.log('Operator inside handleclick:', currentOperation)
+      console.log('Last Value inside handleclick:', lastValue)
       break;
+    case 'compute':
+      compute(currentOperation)
   }
-  console.log('Value inside handleclick', currentValue)
-  console.log('Operator inside handleclick:', currentOperation)
+
 }
 
-main.addEventListener('click', handleClick)
-
-function updateValue(key) {
-  let currentInput = key.target.value
+function updateValue(input) {
+  let currentInput = input.target.value
   if (checkForDecimal(currentInput)) {
     currentValue += currentInput
     value.textContent = currentValue
@@ -41,23 +50,38 @@ function checkForDecimal(key) {
   return true
 }
 
-function containValues() {
-  valuesArr.push(Number(currentValue))
-  console.log(valuesArr)
-}
-
 function selectOperator(event) {
   switch (event.target.value) {
     case '+':
-      currentOperation = event.target.value
-      containValues()
+
       break;
     case '=':
-      compute()
+      compute(currentOperation)
       break;
   }
 }
 
-function compute() {
+function compute(operator) {
+  switch (operator) {
+    case '+':
+      currentValue = Number(lastValue) + Number(currentValue)
+      value.textContent = currentValue
+      break;
+    case '-':
+      currentValue = Number(lastValue) - Number(currentValue)
+      value.textContent = currentValue
+      break;
+    case '*':
+      currentValue = Number(lastValue) * Number(currentValue)
+      value.textContent = currentValue
+      break;
+    case '/':
+      currentValue = Number(lastValue) / Number(currentValue)
+      value.textContent = currentValue
+      break;
+  }
+
+
+
   console.log(currentOperation)
 }
