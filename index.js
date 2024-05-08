@@ -17,7 +17,6 @@ function handleClick(event) {
     case 'operator':
       selectOperator(event)
       break;
-
   }
   console.log('Value inside handleclick', currentValue)
   console.log('Operator inside handleclick:', currentOperation)
@@ -25,13 +24,25 @@ function handleClick(event) {
 
 main.addEventListener('click', handleClick)
 
-function updateValue(num) {
-  currentValue += num.target.value
-  value.textContent = currentValue
+function updateValue(key) {
+  let currentInput = key.target.value
+  if (checkForDecimal(currentInput)) {
+    currentValue += currentInput
+    value.textContent = currentValue
+  }
+}
+
+function checkForDecimal(key) {
+  console.log(currentValue)
+  let lastInput = currentValue.slice(-1)
+  if (key === '.' && lastInput === '.') {
+    return false
+  }
+  return true
 }
 
 function containValues() {
-  valuesArr.push(currentValue)
+  valuesArr.push(Number(currentValue))
   console.log(valuesArr)
 }
 
@@ -39,14 +50,13 @@ function selectOperator(event) {
   switch (event.target.value) {
     case '+':
       currentOperation = event.target.value
+      containValues()
       break;
     case '=':
       compute()
       break;
   }
 }
-
-
 
 function compute() {
   console.log(currentOperation)
