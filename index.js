@@ -13,28 +13,42 @@ main.addEventListener('click', handleClick)
 function handleClick(event) {
   const targetEvent = event.target.className
   switch (targetEvent) {
+    case 'clear':
+      value.textContent = '0'
+      currentValue = ''
+      lastValue = ''
+      break;
     case 'operand':
+      updateValue(event)
+      break;
+    case 'operand zero':
       updateValue(event)
       break;
     case 'operator':
       if (lastValue) {
+        console.log('Current Value inside handleclick', currentValue)
         compute(currentOperation)
       }
       currentOperation = event.target.value
       lastValue = currentValue
       currentValue = ''
-      console.log('Current Value inside handleclick', currentValue)
+
       console.log('Operator inside handleclick:', currentOperation)
       console.log('Last Value inside handleclick:', lastValue)
       break;
     case 'compute':
       compute(currentOperation)
+      break;
   }
 
 }
 
 function updateValue(input) {
   let currentInput = input.target.value
+  if (typeof currentValue === 'number') {
+    currentValue = ''
+    lastValue = ''
+  }
   if (checkForDecimal(currentInput)) {
     currentValue += currentInput
     value.textContent = currentValue
@@ -42,8 +56,8 @@ function updateValue(input) {
 }
 
 function checkForDecimal(key) {
-  console.log(currentValue)
-  let lastInput = currentValue.slice(-1)
+  let stringValue = currentValue.toString()
+  let lastInput = stringValue.slice(-1)
   if (key === '.' && lastInput === '.') {
     return false
   }
