@@ -1,4 +1,3 @@
-// const buttonSeven = document.querySelector('7')
 const main = document.querySelector('main')
 const operandButton = document.querySelectorAll('.operand')
 const operatorButton = document.querySelectorAll('.operator')
@@ -26,23 +25,20 @@ function handleClick(event) {
       break;
     case 'operator':
       if (lastValue) {
-        console.log('Current Value inside handleclick', currentValue)
         compute(currentOperation)
+      } else if (lastValue && currentValue === '') {
+        updateValue(event)
       }
       currentOperation = event.target.value
       lastValue = currentValue
       currentValue = ''
-      console.log('Operator inside handleclick:', currentOperation)
-      console.log('Last Value inside handleclick:', lastValue)
-      break;
-    case 'negative':
-      checkForNegative(-Number(currentValue))
+      console.log('last value:', lastValue, 'current value:', currentValue, 'current op:', currentOperation)
       break;
     case 'compute':
       compute(currentOperation)
+      lastValue = ''
       break;
   }
-
 }
 
 function updateValue(input) {
@@ -60,59 +56,35 @@ function updateValue(input) {
   }
 }
 
-function checkFirstInput(input) {
-
-}
-
 function checkForDecimal(input) {
-  let stringValue = currentValue.toString()
-  let lastInput = stringValue.slice(-1)
-  if (input === '.' && lastInput === '.' || input === '.' && currentValue.includes('.')) {
+  if (input === '.' && currentValue.includes('.')) {
     return false
   }
   return true
-  // for (let i = 0; i < currentValue.length; i++) {
-
-  // }
-
-}
-
-function checkForNegative(input) {
-  value.textContent = input
-  console.log(input)
-}
-
-function selectOperator(event) {
-  switch (event.target.value) {
-    case '+':
-
-      break;
-    case '=':
-      compute(currentOperation)
-      break;
-  }
 }
 
 function compute(operator) {
-  let numConvertLast = lastValue
-  let numConvertCurrent = currentValue
+  if (!lastValue) return false
   switch (operator) {
     case '+':
-      console.log('inside operator:', numConvertLast)
-      // currentValue = Number(lastValue) + Number(currentValue)
-      console.log(numConvertLast - numConvertCurrent)
+      currentValue = Number(lastValue) + Number(currentValue)
+      value.textContent = currentValue
+      console.log('last value:', lastValue, 'current value:', currentValue)
       break;
     case '-':
       currentValue = Number(lastValue) - Number(currentValue)
       value.textContent = currentValue
+      console.log('last value:', lastValue, 'current value:', currentValue)
       break;
-    case '*':
+    case 'x':
       currentValue = Number(lastValue) * Number(currentValue)
       value.textContent = currentValue
+      console.log('last value:', lastValue, 'current value:', currentValue)
       break;
     case '/':
       currentValue = Number(lastValue) / Number(currentValue)
       value.textContent = currentValue
+      console.log('last value:', lastValue, 'current value:', currentValue)
       break;
   }
 }

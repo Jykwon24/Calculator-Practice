@@ -35,6 +35,6 @@ main {
 .operand,
 .clear,
 .compute,
-.negative {
+.delete {
   font-size: 2rem;
 }
