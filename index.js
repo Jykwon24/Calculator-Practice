@@ -20,6 +20,9 @@ function handleClick(event) {
     case 'delete':
       checkDelete()
       break;
+    case 'percent':
+      applyPercentage()
+      break;
     case 'operand':
       updateValue(event)
       break;
@@ -75,13 +78,11 @@ function checkDelete() {
     currentValue = currentValue.slice(0, -1)
     value.textContent = currentValue
   }
-  console.log(typeof currentValue)
-  console.log(currentValue)
-  // currentValue = currentValue.slice(0, -1)
-  // value.textContent = currentValue
-  // console.log(currentValue)
-  // // }
+}
 
+function applyPercentage() {
+  currentValue = currentValue * .01
+  value.textContent = currentValue
 }
 
 function compute(operator) {

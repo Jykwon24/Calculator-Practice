@@ -35,6 +35,7 @@ main {
 .operand,
 .clear,
 .compute,
-.delete {
+.delete,
+.percent {
   font-size: 2rem;
 }
