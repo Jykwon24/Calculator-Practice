@@ -17,6 +17,9 @@ function handleClick(event) {
       currentValue = ''
       lastValue = ''
       break;
+    case 'delete':
+      checkDelete()
+      break;
     case 'operand':
       updateValue(event)
       break;
@@ -63,12 +66,31 @@ function checkForDecimal(input) {
   return true
 }
 
+function checkDelete() {
+  if (typeof currentValue === 'number') {
+    let stringValue = currentValue.toString()
+    currentValue = stringValue.slice(0, -1)
+    value.textContent = currentValue
+  } else {
+    currentValue = currentValue.slice(0, -1)
+    value.textContent = currentValue
+  }
+  console.log(typeof currentValue)
+  console.log(currentValue)
+  // currentValue = currentValue.slice(0, -1)
+  // value.textContent = currentValue
+  // console.log(currentValue)
+  // // }
+
+}
+
 function compute(operator) {
   if (!lastValue) return false
   switch (operator) {
     case '+':
       currentValue = Number(lastValue) + Number(currentValue)
       value.textContent = currentValue
+      console.log(typeof currentValue)
       console.log('last value:', lastValue, 'current value:', currentValue)
       break;
     case '-':
