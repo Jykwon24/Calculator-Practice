@@ -85,28 +85,39 @@ function applyPercentage() {
   value.textContent = currentValue
 }
 
+function cleanOutput(result) {
+  let stringResult = result.toString()
+  let stringArr = stringResult.split('')
+  if (stringArr.length > 3) {
+    for (let i = stringArr.length - 3; i > 0; i -= 3) {
+      stringArr.splice(i, 0, ',');
+    }
+    return stringArr.join('')
+  }
+}
+
 function compute(operator) {
   if (!lastValue) return false
   switch (operator) {
     case '+':
       currentValue = Number(lastValue) + Number(currentValue)
-      value.textContent = currentValue
+      value.textContent = cleanOutput(currentValue)
       console.log(typeof currentValue)
       console.log('last value:', lastValue, 'current value:', currentValue)
       break;
     case '-':
       currentValue = Number(lastValue) - Number(currentValue)
-      value.textContent = currentValue
+      value.textContent = cleanOutput(currentValue)
       console.log('last value:', lastValue, 'current value:', currentValue)
       break;
     case 'x':
       currentValue = Number(lastValue) * Number(currentValue)
-      value.textContent = currentValue
+      value.textContent = cleanOutput(currentValue)
       console.log('last value:', lastValue, 'current value:', currentValue)
       break;
     case '/':
       currentValue = Number(lastValue) / Number(currentValue)
-      value.textContent = currentValue
+      value.textContent = cleanOutput(currentValue)
       console.log('last value:', lastValue, 'current value:', currentValue)
       break;
   }
