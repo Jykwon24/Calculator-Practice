@@ -49,16 +49,17 @@ function handleClick(event) {
 
 function updateValue(input) {
   let currentInput = input.target.value
-  if (typeof currentValue === 'number') {
-    currentValue = ''
-    lastValue = ''
-  }
+  // if (typeof currentValue === 'number') {
+  //   currentValue = ''
+  //   lastValue = ''
+  // }
   if (currentInput === '0' && currentValue === '') {
     return false
   }
   if (checkForDecimal(currentInput)) {
+    console.log(currentValue)
     currentValue += currentInput
-    value.textContent = currentValue
+    value.textContent = cleanOutput(currentValue)
   }
 }
 
@@ -87,14 +88,27 @@ function applyPercentage() {
 
 function cleanOutput(result) {
   let stringResult = result.toString()
-  let stringArr = stringResult.split('')
+  let [integerPart, decimalPart] = stringResult.split('.')
+  let stringArr = integerPart.split('')
+  console.log('stringArr before loop:', stringArr)
+  console.log(decimalPart)
+
   if (stringArr.length > 3) {
     for (let i = stringArr.length - 3; i > 0; i -= 3) {
       stringArr.splice(i, 0, ',');
     }
-    return stringArr.join('')
   }
+  console.log('integerPart:', integerPart)
+  console.log('decimalPart:', decimalPart)
+  console.log('stringArr after loop:', stringArr)
+
+  // return stringArr.join('')
+  return decimalPart !== undefined
+    ? stringArr.join('') + '.' + decimalPart
+    : stringArr.join('')
 }
+
+
 
 function compute(operator) {
   if (!lastValue) return false
